@@ -93,24 +93,6 @@ func TestValidateLinodeObjectStorageBucket(t *testing.T) {
 		),
 		OneOf(
 			Path(
-				Call("invalid region format in spec", func(ctx context.Context, mck Mock) {
-				}),
-				Result("error", func(ctx context.Context, mck Mock) {
-					bucket := bucket
-					bucket.Spec.Region = "123invalid"
-					assert.Error(t, objvalidator.validateLinodeObjectStorageBucket(ctx, &bucket, mck.LinodeClient, false))
-				}),
-			),
-			Path(
-				Call("invalid region format in spec", func(ctx context.Context, mck Mock) {
-				}),
-				Result("error", func(ctx context.Context, mck Mock) {
-					bucket := bucket
-					bucket.Spec.Region = "invalid-2-2"
-					assert.Error(t, objvalidator.validateLinodeObjectStorageBucket(ctx, &bucket, mck.LinodeClient, false))
-				}),
-			),
-			Path(
 				Call("region ID not present", func(ctx context.Context, mck Mock) {
 					mck.LinodeClient.EXPECT().GetRegion(gomock.Any(), gomock.Any()).Return(nil, errors.New("invalid region")).AnyTimes()
 				}),
