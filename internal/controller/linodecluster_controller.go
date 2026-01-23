@@ -436,6 +436,8 @@ func (r *LinodeClusterReconciler) reconcileCreate(ctx context.Context, logger lo
 	// handle creation for the loadbalancer for the control plane
 	if clusterScope.LinodeCluster.Spec.Network.LoadBalancerType == lbTypeDNS {
 		handleDNS(clusterScope)
+	} else if clusterScope.LinodeCluster.Spec.Network.LoadBalancerType == lbTypeExternal {
+		logger.Info("LoadBalancing managed externally, skipping NodeBalancer creation")
 	} else {
 		if err := handleNBCreate(ctx, logger, clusterScope); err != nil {
 			return err
